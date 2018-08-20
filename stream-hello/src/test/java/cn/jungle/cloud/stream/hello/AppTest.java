@@ -1,38 +1,26 @@
 package cn.jungle.cloud.stream.hello;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+import javax.annotation.Resource;
 
-/**
- * Unit test for simple App.
- */
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.messaging.MessageChannel;
+import org.springframework.messaging.support.MessageBuilder;
+import org.springframework.test.context.junit4.SpringRunner;
+
+import cn.jungle.cloud.stream.hello.service.SinkSender;
+
+@RunWith(SpringRunner.class)
+@SpringBootTest
 public class AppTest 
-    extends TestCase
 {
-    /**
-     * Create the test case
-     *
-     * @param testName name of the test case
-     */
-    public AppTest( String testName )
-    {
-        super( testName );
-    }
-
-    /**
-     * @return the suite of tests being tested
-     */
-    public static Test suite()
-    {
-        return new TestSuite( AppTest.class );
-    }
-
-    /**
-     * Rigourous Test :-)
-     */
-    public void testApp()
-    {
-        assertTrue( true );
-    }
+	@Resource
+	private SinkSender sinkSender;
+	@Resource
+	private MessageChannel input;
+	@Test
+	public void contextLoad() {
+		input.send(MessageBuilder.withPayload("from sinksender").build());
+	}
 }
